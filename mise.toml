@@ -1,6 +1,9 @@
+[tools]
+hk = "1.55.0"
+
 [tasks.setup]
-description = "One-time repo setup: install the versioned git hooks"
-run = "git config core.hooksPath .githooks"
+description = "One-time setup: install hk's global git hooks"
+run = "hk install --global"
 
 [tasks.changelog]
 description = "Regenerate CHANGELOG.md from commit history via git-cliff"

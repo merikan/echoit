@@ -32,3 +32,47 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo build --locked
       - run: cargo test --locked
+
+  hk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: jdx/mise-action@v4
+
+      - name: Determine diff range
+        id: range
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "check_args=--pr" >> "$GITHUB_OUTPUT"
+            echo "range=${{ github.event.pull_request.base.sha }}..${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          else
+            before="${{ github.event.before }}"
+            if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
+              # No prior state (e.g. first-ever push) - scan/validate everything.
+              echo "check_args=--all" >> "$GITHUB_OUTPUT"
+              echo "range=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+            else
+              echo "check_args=--from-ref $before --to-ref ${{ github.sha }}" >> "$GITHUB_OUTPUT"
+              echo "range=$before..${{ github.sha }}" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Scan files (betterleaks, detect_private_key)
+        run: hk check ${{ steps.range.outputs.check_args }}
+
+      - name: Validate commit messages
+        run: |
+          set -euo pipefail
+          failed=0
+          for sha in $(git log --format=%H "${{ steps.range.outputs.range }}"); do
+            git show -s --format=%B "$sha" > /tmp/commit-msg.txt
+            echo "checking $sha: $(head -n1 /tmp/commit-msg.txt)"
+            if ! hk util check-conventional-commit /tmp/commit-msg.txt; then
+              failed=1
+            fi
+          done
+          exit $failed

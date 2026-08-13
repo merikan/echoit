@@ -1,0 +1,25 @@
+amends "package://github.com/jdx/hk/releases/download/v1.55.0/hk@1.55.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.55.0/hk@1.55.0#/Builtins.pkl"
+
+// Secret scanning. Shared across the local pre-commit hook and the
+// explicit `hk check` used in CI (see .github/workflows/ci.yml).
+local linters = new Mapping<String, Step> {
+  ["betterleaks"] = Builtins.betterleaks
+  ["detect_private_key"] = Builtins.detect_private_key
+}
+
+hooks {
+  ["pre-commit"] {
+    fix = false
+    stash = "git"
+    steps = linters
+  }
+  ["check"] {
+    steps = linters
+  }
+  ["commit-msg"] {
+    steps {
+      ["check_conventional_commit"] = Builtins.check_conventional_commit
+    }
+  }
+}
