@@ -1,7 +1,10 @@
 [package]
-name = "my-app"
+name = "echoit"
 version = "0.1.1"
 edition = "2024"
+description = "Echoes back the argument you pass it."
+license = "MIT"
+repository = "https://github.com/merikan/echoit"
 
 [dependencies]
 clap = { version = "4.6.6", features = ["derive"] }

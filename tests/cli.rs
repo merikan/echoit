@@ -3,7 +3,7 @@ use predicates::prelude::*;
 
 #[test]
 fn prints_what_was_written() {
-    Command::cargo_bin("my-app")
+    Command::cargo_bin("echoit")
         .unwrap()
         .arg("hello")
         .assert()
@@ -13,12 +13,12 @@ fn prints_what_was_written() {
 
 #[test]
 fn fails_with_no_argument() {
-    Command::cargo_bin("my-app").unwrap().assert().failure();
+    Command::cargo_bin("echoit").unwrap().assert().failure();
 }
 
 #[test]
 fn fails_with_more_than_one_argument() {
-    Command::cargo_bin("my-app")
+    Command::cargo_bin("echoit")
         .unwrap()
         .arg("hello")
         .arg("world")

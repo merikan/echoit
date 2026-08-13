@@ -3,7 +3,7 @@
 
 [remote.github]
 owner = "merikan"
-repo = "my-app"
+repo = "echoit"
 
 [changelog]
 # A Tera template to be rendered as the changelog's header.
