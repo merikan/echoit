@@ -13,10 +13,7 @@ fn prints_what_was_written() {
 
 #[test]
 fn fails_with_no_argument() {
-    Command::cargo_bin("my-app")
-        .unwrap()
-        .assert()
-        .failure();
+    Command::cargo_bin("my-app").unwrap().assert().failure();
 }
 
 #[test]
