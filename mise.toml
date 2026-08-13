@@ -1,5 +1,6 @@
 [tools]
-hk = "1.55.0"
+hk = "latest"
+betterleaks = "latest"
 
 [tasks.setup]
 description = "One-time setup: install hk's global git hooks"
