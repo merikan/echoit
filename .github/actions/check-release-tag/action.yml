@@ -1,0 +1,14 @@
+name: Check release tag
+description: Fails unless the current commit is reachable from main
+
+runs:
+  using: composite
+  steps:
+    - name: Verify tag is on main
+      shell: bash
+      run: |
+        set -euo pipefail
+        if ! git merge-base --is-ancestor "${{ github.sha }}" origin/main; then
+          echo "::error::Tag ${{ github.ref_name }} is not on main; refusing to continue."
+          exit 1
+        fi
