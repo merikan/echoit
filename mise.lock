@@ -73,3 +73,55 @@ url_api = "https://api.github.com/repos/jdx/hk/releases/assets/510729670"
 checksum = "sha256:402b3c9c5f9a5b3cb8ab6229d0f6d169b122fc3db1e39fc2fa53421a1aa24fc5"
 url = "https://github.com/jdx/hk/releases/download/v1.55.0/hk-x86_64-pc-windows-msvc.zip"
 url_api = "https://api.github.com/repos/jdx/hk/releases/assets/510729674"
+
+[[tools.jreleaser]]
+version = "1.25.0"
+backend = "aqua:jreleaser/jreleaser"
+
+[tools.jreleaser."platforms.linux-arm64"]
+checksum = "sha256:9409584af949088e1563daf0384a5de604e054bc7b833f17aac71916bf80e13d"
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-native-1.25.0-linux-aarch64.zip"
+url_api = "https://api.github.com/repos/jreleaser/jreleaser/releases/assets/460915326"
+
+[tools.jreleaser."platforms.linux-arm64".provenance.slsa]
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-all-1.25.0.intoto.jsonl"
+
+[tools.jreleaser."platforms.linux-arm64-musl"]
+checksum = "sha256:9409584af949088e1563daf0384a5de604e054bc7b833f17aac71916bf80e13d"
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-native-1.25.0-linux-aarch64.zip"
+url_api = "https://api.github.com/repos/jreleaser/jreleaser/releases/assets/460915326"
+
+[tools.jreleaser."platforms.linux-arm64-musl".provenance.slsa]
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-all-1.25.0.intoto.jsonl"
+
+[tools.jreleaser."platforms.linux-x64"]
+checksum = "sha256:f0386ef0ffa45b5e224fff2d9912409d3ce5796872aee83d3f91bcf53b7d7bfb"
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-native-1.25.0-linux-x86_64.zip"
+url_api = "https://api.github.com/repos/jreleaser/jreleaser/releases/assets/460915346"
+
+[tools.jreleaser."platforms.linux-x64".provenance.slsa]
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-all-1.25.0.intoto.jsonl"
+
+[tools.jreleaser."platforms.linux-x64-musl"]
+checksum = "sha256:f0386ef0ffa45b5e224fff2d9912409d3ce5796872aee83d3f91bcf53b7d7bfb"
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-native-1.25.0-linux-x86_64.zip"
+url_api = "https://api.github.com/repos/jreleaser/jreleaser/releases/assets/460915346"
+
+[tools.jreleaser."platforms.linux-x64-musl".provenance.slsa]
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-all-1.25.0.intoto.jsonl"
+
+[tools.jreleaser."platforms.macos-arm64"]
+checksum = "sha256:97fc7ba596529ed67fda25b8b76895dbada90d08a2fa417aa1bb1eccd7923b3f"
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-native-1.25.0-osx-aarch64.zip"
+url_api = "https://api.github.com/repos/jreleaser/jreleaser/releases/assets/460915382"
+
+[tools.jreleaser."platforms.macos-arm64".provenance.slsa]
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-all-1.25.0.intoto.jsonl"
+
+[tools.jreleaser."platforms.windows-x64"]
+checksum = "sha256:73eba958db23a99e571585e73aab2928d663f30c2030bfddec38e76e1845c715"
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-native-1.25.0-windows-x86_64.zip"
+url_api = "https://api.github.com/repos/jreleaser/jreleaser/releases/assets/460915441"
+
+[tools.jreleaser."platforms.windows-x64".provenance.slsa]
+url = "https://github.com/jreleaser/jreleaser/releases/download/v1.25.0/jreleaser-all-1.25.0.intoto.jsonl"

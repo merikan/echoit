@@ -22,6 +22,8 @@ jobs:
             target: aarch64-apple-darwin
           - os: macos-15-intel
             target: x86_64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -32,17 +34,27 @@ jobs:
 
       - run: cargo build --release --locked --target ${{ matrix.target }}
 
-      - name: Package archive
+      - name: Package archive (Unix)
+        if: runner.os != 'Windows'
         run: |
           set -euo pipefail
-          bin="target/${{ matrix.target }}/release/my-app"
-          archive="my-app-${{ github.ref_name }}-${{ matrix.target }}.tar.gz"
+          bin="target/${{ matrix.target }}/release/echoit"
+          archive="echoit-${{ matrix.target }}.tar.gz"
           tar -czf "$archive" -C "$(dirname "$bin")" "$(basename "$bin")"
           echo "ARCHIVE=$archive" >> "$GITHUB_ENV"
 
+      - name: Package archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $bin = "target/${{ matrix.target }}/release/echoit.exe"
+          $archive = "echoit-${{ matrix.target }}.zip"
+          Compress-Archive -Path $bin -DestinationPath $archive
+          echo "ARCHIVE=$archive" >> $env:GITHUB_ENV
+
       - uses: actions/upload-artifact@v4
         with:
-          name: my-app-${{ matrix.target }}
+          name: echoit-${{ matrix.target }}
           path: ${{ env.ARCHIVE }}
 
   release:
@@ -65,8 +77,23 @@ jobs:
           config: cliff.toml
           args: --latest --strip header
 
-      - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
+      - name: Write release notes
+        run: printf '%s\n' "${{ steps.changelog.outputs.content }}" > RELEASE_NOTES.md
+
+      - uses: jdx/mise-action@v4
+
+      - name: Run JReleaser
+        run: jreleaser full-release
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Fine-grained PAT (Contents: read/write) scoped to the
+          # homebrew-tools and scoop-bucket repos. See jreleaser.yml.
+          JRELEASER_HOMEBREW_GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+          JRELEASER_SCOOP_GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+
+      - name: Upload JReleaser logs
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          body: ${{ steps.changelog.outputs.content }}
-          files: dist/*
+          name: jreleaser-logs
+          path: out/jreleaser/trace.log

@@ -1,6 +1,7 @@
 [tools]
 hk = "latest"
 betterleaks = "latest"
+jreleaser = "1.25.0"
 
 [tasks.setup]
 description = "One-time setup: install hk's global git hooks"
