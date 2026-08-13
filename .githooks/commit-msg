@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Enforces Conventional Commits so git-cliff (see cliff.toml) can group
+# commits correctly. Allowed types mirror cliff.toml's commit_parsers.
+set -euo pipefail
+
+commit_msg_file="$1"
+first_line="$(head -n1 "$commit_msg_file")"
+
+# Let merge commits through unchecked.
+if [[ "$first_line" == Merge\ * ]]; then
+  exit 0
+fi
+
+pattern='^(feat|fix|docs|refactor|perf|style|revert|chore|ci)(\([a-zA-Z0-9/_-]+\))?!?: .+'
+
+if [[ ! "$first_line" =~ $pattern ]]; then
+  echo "error: commit message does not follow Conventional Commits format" >&2
+  echo "  expected: <type>[(scope)][!]: <description>" >&2
+  echo "  allowed types: feat, fix, docs, refactor, perf, style, revert, chore, ci" >&2
+  echo "  got: $first_line" >&2
+  exit 1
+fi
