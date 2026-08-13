@@ -1,12 +1,9 @@
 # git-cliff ~ configuration file
 # https://git-cliff.org/docs/configuration
-#
-# No [remote.github] section: this repo has no GitHub remote yet, and
-# git-cliff actively queries the GitHub API for PR/contributor metadata
-# whenever owner/repo are set, which fails for a repo that doesn't exist
-# there. Add it back (owner = "merikan", repo = "my-app") once this is
-# actually pushed to GitHub - the footer's compare-links will start
-# resolving at that point.
+
+[remote.github]
+owner = "merikan"
+repo = "my-app"
 
 [changelog]
 # A Tera template to be rendered as the changelog's header.
