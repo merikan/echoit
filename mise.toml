@@ -3,6 +3,9 @@ hk = "latest"
 betterleaks = "latest"
 jreleaser = "1.25.0"
 
+[task_config]
+includes = ["etc/mise/tasks/"]
+
 [tasks.setup]
 description = "One-time setup: install hk's global git hooks"
 run = "hk install --global"
