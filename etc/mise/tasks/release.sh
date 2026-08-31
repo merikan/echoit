@@ -14,7 +14,7 @@ usage() {
 
   Prepare for a release
 
-  Paas a release version or let git-cliff calculate the version.
+  Pass a release version or let git-cliff calculate the version.
 
 
   Arguments:
@@ -232,3 +232,4 @@ main() {
 }
 
 main "$@"
+

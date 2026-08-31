@@ -4,12 +4,5 @@ betterleaks = "latest"
 jreleaser = "1.25.0"
 
 [task_config]
-includes = ["etc/mise/tasks/"]
+includes = ["etc/mise/tasks.toml", "etc/mise/tasks/"]
 
-[tasks.setup]
-description = "One-time setup: install hk's global git hooks"
-run = "hk install --global"
-
-[tasks.changelog]
-description = "Regenerate CHANGELOG.md from commit history via git-cliff"
-run = "git cliff --config cliff.toml --output CHANGELOG.md"
