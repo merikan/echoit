@@ -2,7 +2,6 @@
 
 #MISE description="prepare for a release"
 #MISE dir="{{cwd}}"
-set -x
 set -euo pipefail
 
 RELEASE_VERSION=""
@@ -81,7 +80,6 @@ prereq() {
       die "Required tool not found: $tool"
   done
 }
-
 
 # -----------------------------------------------------------------------------
 # Check git for dirty directory
@@ -169,6 +167,10 @@ prepare_release() {
     warn "Dry run: no changes will be made."
   fi
 
+  if [ $(git tag -l "$tag_name") ]; then
+    die "Tag $tag_name already exists."
+  fi
+
   # update the changelog
   if $DRY_RUN; then
     info "[DRY-RUN] Would update CHANGELOG.md via: git-cliff --tag \"$new_version\""
@@ -182,17 +184,8 @@ prepare_release() {
   if $DRY_RUN; then
     info "[DRY-RUN] Would bump version to \"$new_version\" in Cargo.toml"
   else
-    sed -i -E "0,/^version = \".*\"/s//version = \"$new_version\"/" Cargo.toml
-    local updated_version
-    updated_version=$(sed -nE '/^\[package\]/,/^\[/ s/^version = "(.*)"/\1/p' Cargo.toml | head -n 1)
-
-    if [ "$updated_version" = "$new_version" ]; then
-      info "Version updated to $updated_version in Cargo.toml"
-    else
-      die "Verification failed. Expected $new_version, got $updated_version"
-    fi
-    # sync cargo.lock
-    cargo check --quiet
+    cargo set-version "$new_version"
+    info "Version updated to $new_version in Cargo.toml"
     git add Cargo.toml Cargo.lock
   fi
 
@@ -204,11 +197,10 @@ prepare_release() {
     git add -A && git commit -m "$commit_message"
     git tag -a "$tag_name" -m "Release $tag_name"
 
-    read -rp "$\nPush commit and tag '$tag_name' to origin? [y/N] " CONFIRM
+    local current_branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    read -rp "Push release commit and tag '$tag_name' to origin? [y/N] " CONFIRM
     if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
-      # Get current branch name dynamically
-      local current_branch
-      current_branch=$(git rev-parse --abbrev-ref HEAD)
 
       info "Pushing commit and tag $tag_name to origin/$current_branch..."
       git push --atomic origin "$current_branch" "$tag_name"
@@ -232,4 +224,3 @@ main() {
 }
 
 main "$@"
-

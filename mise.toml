@@ -4,6 +4,7 @@ _.path = ["./target/debug"]
 [tools]
 rust = { version = "latest", components = "rust-analyzer,clippy,rustfmt" }
 "cargo:cargo-tarpaulin" = "latest"
+"cargo:cargo-edit" = "latest"
 actionlint = "latest"
 tombi = "latest"
 git-cliff = "latest"
