@@ -2,7 +2,7 @@
 
 #MISE description="prepare for a release"
 #MISE dir="{{cwd}}"
-
+set -x
 set -euo pipefail
 
 RELEASE_VERSION=""
