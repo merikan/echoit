@@ -55,9 +55,9 @@ description = "Generate and open documentation"
 run = "cargo doc --open"
 
 ["mise:install"]
-description = "Install tools"
-run = "mise install --local"
+description = "Install project tools"
+run = "mise install"
 
 ["mise:upgrade"]
-description = "Upgrade tools version"
+description = "Upgrade project tools version"
 run = "mise upgrade --bump --local"

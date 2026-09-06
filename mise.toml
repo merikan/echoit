@@ -1,8 +1,21 @@
+[env]
+_.path = ["./target/debug"]
+
 [tools]
+rust = { version = "latest", components = "rust-analyzer,clippy,rustfmt" }
+"cargo:cargo-tarpaulin" = "latest"
+actionlint = "latest"
+tombi = "latest"
+git-cliff = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+
 hk = "latest"
 betterleaks = "latest"
 jreleaser = "1.25.0"
 
+[settings]
+lockfile = true
+
 [task_config]
 includes = ["etc/mise/tasks.toml", "etc/mise/tasks/"]
-
