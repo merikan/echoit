@@ -109,7 +109,7 @@ prompt_release_version() {
     info "Using provided argument for version suggestion: ${suggested_version}" >&2
   else
     local cliff_tag_version
-    cliff_tag_version=$(git cliff --bumped-version)
+    cliff_tag_version=$(git-cliff --bumped-version)
     suggested_version="${cliff_tag_version#v}"
     if [ -z "$suggested_version" ]; then
       die "No new version bump detected by git-cliff (no relevant commits)."
@@ -174,7 +174,7 @@ prepare_release() {
     info "[DRY-RUN] Would update CHANGELOG.md via: git-cliff --tag \"$new_version\""
     git-cliff --tag "$new_version" >&2
   else
-    git-cliff --tag "$new_version"
+    git-cliff --tag "$new_version" --unreleased --prepend CHANGELOG.md
     git add CHANGELOG.md
   fi
 
