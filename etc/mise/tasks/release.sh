@@ -194,7 +194,17 @@ prepare_release() {
     info "[DRY-RUN] Would create tag: $tag_name with message '$tag_message'"
     info "Dry run complete. No changes were made."
   else
-    git add -A && git commit -m "$commit_message"
+
+    local changes=()
+    changes=$(
+      git diff --name-only # unstaged files
+      git ls-files --others --exclude-standard #untracked files
+    )
+    if [ -n "$changes" ]; then
+      die "Unstaged or untracked files detected. Did you miss to add them?: \n$changes"
+    fi
+
+    git commit -m "$commit_message"
     git tag -a "$tag_name" -m "Release $tag_name"
 
     local current_branch
@@ -208,7 +218,7 @@ prepare_release() {
       info "Successfully pushed release to origin."
     else
       info "Skipped push. The local commit and tag remain intact."
-      info "When ready push it yourself with \"git push --atomic origin \"$current_branch\" \"$tag_name\"\""
+      info "When ready push it yourself with \"git push --atomic origin $current_branch $tag_name\""
     fi
   fi
 
