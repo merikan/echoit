@@ -25,6 +25,7 @@ echo "Coverage report generated: target/coverage/tarpaulin-report.html"
 [lint]
 description = "Lint the code"
 run = """
+echo "running audit"; cargo audit
 echo "running clippy"; cargo clippy
 echo "running tombi"; tombi lint mise.toml
 echo "running actionlint"; actionlint .github/workflows/*.yml

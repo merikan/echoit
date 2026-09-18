@@ -80,6 +80,10 @@ url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.4/bette
 url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/508893178"
 provenance = "cosign"
 
+[[tools."cargo:cargo-audit"]]
+version = "0.22.2"
+backend = "cargo:cargo-audit"
+
 [[tools."cargo:cargo-edit"]]
 version = "0.13.13"
 backend = "cargo:cargo-edit"

@@ -3,6 +3,7 @@ _.path = ["./target/debug"]
 
 [tools]
 rust = { version = "latest", components = "rust-analyzer,clippy,rustfmt" }
+"cargo:cargo-audit" = "latest"
 "cargo:cargo-tarpaulin" = "latest"
 "cargo:cargo-edit" = "latest"
 actionlint = "latest"
